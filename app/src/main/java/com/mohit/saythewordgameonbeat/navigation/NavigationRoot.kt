@@ -22,13 +22,17 @@ fun NavigationRoot() {
             entry<Route.MenuScreen> {
                 MenuScreen(
                     onBeatClicked = {
-                        backStack.add(Route.ChooseDifficultyScreen(game = Game.BeatSpeak))
+                        if(backStack.lastOrNull() !is Route.ChooseDifficultyScreen) {
+                            backStack.add(Route.ChooseDifficultyScreen(game = Game.BeatSpeak))
+                        }
                     },
                     onSettingsClicked = {
                         backStack.add(Route.MenuScreen)
                     },//Todo
                     onTapClicked = {
-                        backStack.add(Route.ChooseDifficultyScreen(game = Game.TapToBeat))
+                        if(backStack.lastOrNull() !is Route.ChooseDifficultyScreen) {
+                            backStack.add(Route.ChooseDifficultyScreen(game = Game.TapToBeat))
+                        }
                     }
                 )
             }
