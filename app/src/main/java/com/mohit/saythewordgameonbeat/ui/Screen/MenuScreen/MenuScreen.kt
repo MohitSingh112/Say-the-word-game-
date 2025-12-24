@@ -49,9 +49,7 @@ fun MenuScreen( viewModel: MenuViewModel = hiltViewModel()
         currentMode = currentMode.value,
         onModeChanged = viewModel::onGameModeChanged
     )
-
-
-
+    
 }
 
 @Composable
