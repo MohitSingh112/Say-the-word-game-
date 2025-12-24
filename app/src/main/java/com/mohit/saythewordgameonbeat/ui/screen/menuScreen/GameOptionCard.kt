@@ -1,4 +1,4 @@
-package com.mohit.saythewordgameonbeat.ui.Screen.MenuScreen
+package com.mohit.saythewordgameonbeat.ui.screen.menuScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -16,8 +16,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mohit.saythewordgameonbeat.R
-import com.mohit.saythewordgameonbeat.ui.Components.CartoonyText
-import com.mohit.saythewordgameonbeat.ui.Components.GameCard
+import com.mohit.saythewordgameonbeat.ui.components.CartoonyText
+import com.mohit.saythewordgameonbeat.ui.components.GameCard
 import com.mohit.saythewordgameonbeat.ui.theme.SayTheWordGameOnBeatTheme
 
 @Composable

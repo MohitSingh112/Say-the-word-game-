@@ -1,4 +1,4 @@
-package com.mohit.saythewordgameonbeat.ui.Screen.MenuScreen
+package com.mohit.saythewordgameonbeat.ui.screen.menuScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

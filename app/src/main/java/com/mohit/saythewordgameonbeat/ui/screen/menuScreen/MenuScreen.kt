@@ -1,4 +1,4 @@
-package com.mohit.saythewordgameonbeat.ui.Screen.MenuScreen
+package com.mohit.saythewordgameonbeat.ui.screen.menuScreen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -20,6 +20,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,19 +36,26 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mohit.saythewordgameonbeat.R
 import com.mohit.saythewordgameonbeat.emuns.GameMode
-import com.mohit.saythewordgameonbeat.ui.Components.CartoonyText
-import com.mohit.saythewordgameonbeat.ui.Components.GameCard
+import com.mohit.saythewordgameonbeat.ui.components.CartoonyText
+import com.mohit.saythewordgameonbeat.ui.components.GameCard
 import com.mohit.saythewordgameonbeat.ui.theme.SayTheWordGameOnBeatTheme
 
 @Composable
-fun MenuScreen( viewModel: MenuViewModel = hiltViewModel()
+fun MenuScreen(
+    viewModel: MenuViewModel = hiltViewModel(),
+    onBeatClicked: () -> Unit,
+    onTapClicked: () -> Unit,
+    onSettingsClicked: () -> Unit
 ) {
 
-    val currentMode = viewModel.currentGameMode.collectAsStateWithLifecycle()
+    val currentMode by viewModel.currentGameMode.collectAsStateWithLifecycle()
 
     MenuContent(
-        currentMode = currentMode.value,
-        onModeChanged = viewModel::onGameModeChanged
+        currentMode = currentMode,
+        onModeChanged = viewModel::onGameModeChanged,
+        onBeatClicked = onBeatClicked,
+        onTapClicked = onTapClicked,
+        onSettingsClicked = onSettingsClicked
     )
     
 }
@@ -56,7 +64,10 @@ fun MenuScreen( viewModel: MenuViewModel = hiltViewModel()
 fun MenuContent(
     modifier: Modifier = Modifier,
     currentMode: GameMode,
-    onModeChanged: (GameMode) -> Unit
+    onModeChanged: (GameMode) -> Unit,
+    onBeatClicked: () -> Unit ,
+    onTapClicked: () -> Unit ,
+    onSettingsClicked: () -> Unit
 ) {
 
 
@@ -102,7 +113,7 @@ fun MenuContent(
                 borderSize = 1,
                 cornerRadius = 8,
                 padding = 8,
-                onClick = {} //ToDo( add on click event)
+                onClick = onSettingsClicked
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_settings),
@@ -126,8 +137,9 @@ fun MenuContent(
                 bgColor = Color(0xFF00E676),
                 text = "Beat Speak",
                 textColor = Color.Yellow,
-                image = R.drawable.ic_microphone
-            ) {}//Todo
+                image = R.drawable.ic_microphone,
+                onClick = onBeatClicked
+            )
 
             Spacer(
                 modifier = Modifier.size(16.dp)
@@ -138,8 +150,9 @@ fun MenuContent(
                 bgColor = Color(0xFFFF6EC7),
                 text = "Tap to Beat",
                 textColor = Color(0xFF00D9FF),
-                image = R.drawable.ic_tap_to_beat
-            ) {}//Todo
+                image = R.drawable.ic_tap_to_beat,
+                onClick = onTapClicked
+            )
 
             Spacer(
                 modifier = Modifier.size(16.dp)
@@ -247,6 +260,12 @@ fun BottomItems(
 @Composable
 private fun Preview() {
     SayTheWordGameOnBeatTheme {
-        MenuContent(currentMode = GameMode.SinglePlayer, onModeChanged = {})
+        MenuContent(
+            currentMode = GameMode.SinglePlayer,
+            onModeChanged = {},
+            onBeatClicked = {},
+            onTapClicked = {},
+            onSettingsClicked = {}
+        )
     }
 }

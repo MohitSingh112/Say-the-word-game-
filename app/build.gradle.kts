@@ -3,8 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
-    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -68,4 +70,9 @@ dependencies {
 
     //data store
     implementation(libs.androidx.datastore.preferences)
+
+    //navigation3
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.kotlinx.serialization.json)
 }
