@@ -16,6 +16,10 @@ class MenuViewModel @Inject constructor(
     private val repository: GamePreferencesRepository
 ) : ViewModel() {
 
+    init {
+            resetState()
+    }
+
     val currentGameMode: StateFlow<GameMode> = repository.getGameMode()
         .stateIn(
             scope = viewModelScope,
@@ -26,6 +30,11 @@ class MenuViewModel @Inject constructor(
     fun onGameModeChanged(newMode: GameMode) {
         viewModelScope.launch {
             repository.saveGameMode(newMode)
+        }
+    }
+    private fun resetState(){
+        viewModelScope.launch {
+            repository.saveGameMode(GameMode.SinglePlayer)
         }
     }
 }

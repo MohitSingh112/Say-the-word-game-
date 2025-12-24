@@ -20,6 +20,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +48,6 @@ fun MenuScreen(
     onTapClicked: () -> Unit,
     onSettingsClicked: () -> Unit
 ) {
-
     val currentMode by viewModel.currentGameMode.collectAsStateWithLifecycle()
 
     MenuContent(
@@ -72,7 +72,7 @@ fun MenuContent(
 
 
 
-    val bgColor = if(GameMode.SinglePlayer == currentMode) Color.Cyan
+    val bgColor = if(GameMode.SinglePlayer == currentMode) Color(0xFF00D9FF)
     else Color(0xFFFCE4EC)
 
 
@@ -149,7 +149,7 @@ fun MenuContent(
             GameOptionCard(
                 bgColor = Color(0xFFFF6EC7),
                 text = "Tap to Beat",
-                textColor = Color(0xFF00D9FF),
+                textColor = Color.Cyan,
                 image = R.drawable.ic_tap_to_beat,
                 onClick = onTapClicked
             )
