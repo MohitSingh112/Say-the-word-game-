@@ -13,4 +13,7 @@ sealed interface Route: NavKey {
     data class ChooseDifficultyScreen(
         val game: Game
     ): Route, NavKey
+
+    @Serializable
+    data object SettingScreen: Route, NavKey
 }

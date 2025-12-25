@@ -31,7 +31,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mohit.saythewordgameonbeat.R
 import com.mohit.saythewordgameonbeat.emuns.Difficulty
-import com.mohit.saythewordgameonbeat.emuns.Game
 import com.mohit.saythewordgameonbeat.emuns.GameMode
 import com.mohit.saythewordgameonbeat.ui.components.CartoonyText
 import com.mohit.saythewordgameonbeat.ui.components.GameCard
@@ -41,8 +40,8 @@ import com.mohit.saythewordgameonbeat.ui.components.GameCard
 fun ChooseDifficultyScreen(
     modifier: Modifier = Modifier,
     viewModel: ChooseDifficultyViewModel = hiltViewModel(),
-    game: Game,
     onBack: () -> Unit,
+    onStartClicked: () -> Unit
 ) {
 
     val difficulty by viewModel.difficulty.collectAsStateWithLifecycle()
@@ -63,7 +62,7 @@ fun ChooseDifficultyScreen(
         onHardClicked = { viewModel.onDifficultyChanged(Difficulty.Hard)},
         onNightmareClicked = { viewModel.onDifficultyChanged(Difficulty.NightMare) },
         gameMode = gameMode,
-        onStartClicked = {  } //todo
+        onStartClicked = onStartClicked
     )
 }
 
@@ -202,7 +201,7 @@ fun ChooseDifficultyContent(
 
         // --- START BUTTON ---
         val isButtonEnabled = difficulty != Difficulty.None
-        val buttonColor = Color(0xFFFFD700) // Matches your "Medium" Yellow
+        val buttonColor = Color(0xFFFFD700)
 
         Button(
             onClick = onStartClicked,

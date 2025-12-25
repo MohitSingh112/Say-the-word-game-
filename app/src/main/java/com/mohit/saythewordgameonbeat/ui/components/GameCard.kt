@@ -29,12 +29,13 @@ fun GameCard(
     borderSize: Int,
     padding: Int = 4,
     onClick: () -> Unit,
+    clickable: Boolean = true,
     content: @Composable () -> Unit
 ) {
     Card(
         modifier = Modifier
             .wrapContentSize()
-            .clickable { onClick() },
+            .clickable(enabled = clickable, onClick = onClick),
         colors = CardDefaults.cardColors(containerColor = color),
         border = BorderStroke(borderSize.dp, Color.Black),
         shape = RoundedCornerShape(cornerRadius.dp),
