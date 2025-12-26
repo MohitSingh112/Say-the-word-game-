@@ -2,7 +2,6 @@ package com.mohit.saythewordgameonbeat.ui.screen.chooseDifficultyScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mohit.saythewordgameonbeat.data.GamePreferencesRepository
 import com.mohit.saythewordgameonbeat.emuns.Difficulty
 import com.mohit.saythewordgameonbeat.emuns.GameMode
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,16 +13,8 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class ChooseDifficultyViewModel @Inject constructor(
-    repository: GamePreferencesRepository
-) : ViewModel() {
+class ChooseDifficultyViewModel @Inject constructor() : ViewModel() {
 
-    val gameMode = repository.getGameMode()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = GameMode.SinglePlayer
-        )
     private var _difficulty = MutableStateFlow(Difficulty.None)
     val difficulty = _difficulty.asStateFlow()
 

@@ -20,7 +20,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,8 +43,8 @@ import com.mohit.saythewordgameonbeat.ui.theme.SayTheWordGameOnBeatTheme
 @Composable
 fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel(),
-    onBeatClicked: () -> Unit,
-    onTapClicked: () -> Unit,
+    onBeatClicked: (GameMode) -> Unit,
+    onTapClicked: (GameMode) -> Unit,
     onSettingsClicked: () -> Unit
 ) {
     val currentMode by viewModel.currentGameMode.collectAsStateWithLifecycle()
@@ -53,8 +52,8 @@ fun MenuScreen(
     MenuContent(
         currentMode = currentMode,
         onModeChanged = viewModel::onGameModeChanged,
-        onBeatClicked = onBeatClicked,
-        onTapClicked = onTapClicked,
+        onBeatClicked = {onBeatClicked(currentMode)},
+        onTapClicked = {onTapClicked(currentMode)},
         onSettingsClicked = onSettingsClicked
     )
     

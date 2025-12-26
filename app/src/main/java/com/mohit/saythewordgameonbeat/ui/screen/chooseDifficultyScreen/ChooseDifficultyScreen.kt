@@ -40,12 +40,12 @@ import com.mohit.saythewordgameonbeat.ui.components.GameCard
 fun ChooseDifficultyScreen(
     modifier: Modifier = Modifier,
     viewModel: ChooseDifficultyViewModel = hiltViewModel(),
+    gameMode: GameMode,
     onBack: () -> Unit,
-    onStartClicked: () -> Unit
+    onStartClicked: (Difficulty) -> Unit
 ) {
 
     val difficulty by viewModel.difficulty.collectAsStateWithLifecycle()
-    val gameMode by viewModel.gameMode.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.resetState() // Clean start every time
@@ -62,7 +62,7 @@ fun ChooseDifficultyScreen(
         onHardClicked = { viewModel.onDifficultyChanged(Difficulty.Hard)},
         onNightmareClicked = { viewModel.onDifficultyChanged(Difficulty.NightMare) },
         gameMode = gameMode,
-        onStartClicked = onStartClicked
+        onStartClicked = {onStartClicked(difficulty)}
     )
 }
 

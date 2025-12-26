@@ -7,10 +7,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.mohit.saythewordgameonbeat.emuns.Difficulty
 import com.mohit.saythewordgameonbeat.emuns.Game
+import com.mohit.saythewordgameonbeat.emuns.GameMode
 import com.mohit.saythewordgameonbeat.ui.screen.chooseDifficultyScreen.ChooseDifficultyScreen
 import com.mohit.saythewordgameonbeat.ui.screen.menuScreen.MenuScreen
 import com.mohit.saythewordgameonbeat.ui.screen.settingScreen.SettingScreen
+import com.mohit.saythewordgameonbeat.ui.screen.tapToBeatScreen.TapToBeatGameScreen
 
 @Composable
 fun NavigationRoot() {
@@ -25,31 +28,46 @@ fun NavigationRoot() {
         entryProvider = entryProvider {
             entry<Route.MenuScreen> {
                 MenuScreen(
-                    onBeatClicked = {
+                    onBeatClicked = { gameMode ->
                         if(backStack.lastOrNull() !is Route.ChooseDifficultyScreen) {
-                            backStack.add(Route.ChooseDifficultyScreen(game = Game.BeatSpeak))
+                            backStack.add(Route.ChooseDifficultyScreen(
+                                gameName = Game.BeatSpeak,
+                                gameMode = gameMode
+                            ))
                         }
                     },
                     onSettingsClicked = {
                         backStack.add(Route.SettingScreen)
                     },
-                    onTapClicked = {
+                    onTapClicked = { gameMode ->
                         if(backStack.lastOrNull() !is Route.ChooseDifficultyScreen) {
-                            backStack.add(Route.ChooseDifficultyScreen(game = Game.TapToBeat))
+                            backStack.add(Route.ChooseDifficultyScreen(
+                                gameName = Game.TapToBeat,
+                                gameMode = gameMode
+                            ))
                         }
                     }
                 )
             }
 
-            entry<Route.ChooseDifficultyScreen> {
+            entry<Route.ChooseDifficultyScreen> { game ->
                 ChooseDifficultyScreen(
+                    gameMode = game.gameMode,
                     onBack = {
                         // FIX: Only pop if this screen is actually currently on top
                         if (backStack.lastOrNull() is Route.ChooseDifficultyScreen) {
                             backStack.removeLastOrNull()
                         }
                     },
-                    onStartClicked = {} //Todo
+                    onStartClicked = { difficulty ->
+
+                        if(backStack.lastOrNull() !is Route.TapToBeatGameScreen) {
+                            backStack.add(Route.TapToBeatGameScreen(
+                                gameMode = game.gameMode,
+                                difficulty = difficulty
+                            ))
+                        }
+                    }  //Todo
                 )
             }
 
@@ -85,6 +103,16 @@ fun NavigationRoot() {
                         } catch (e: Exception) {
                             // Handle case where no email app is found
                         }
+                    }
+                )
+            }
+
+            entry<Route.TapToBeatGameScreen>{
+                TapToBeatGameScreen(
+                    gameMode = it.gameMode,
+                    difficulty = it.difficulty,
+                    onBack = {
+                        if(backStack.lastOrNull() is Route.TapToBeatGameScreen) backStack.removeLastOrNull()
                     }
                 )
             }
