@@ -20,6 +20,7 @@ import kotlin.math.min
 @HiltViewModel
 class TapToBeatViewModel @Inject constructor(
     private val blockRepository : BlockRepository,
+
 ) : ViewModel() {
 
     // --- STATE VARIABLES (Observed by UI) ---
