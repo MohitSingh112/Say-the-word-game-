@@ -1,8 +1,7 @@
-package com.mohit.saythewordgameonbeat.utils
+package com.mohit.saythewordgameonbeat
 
 import android.content.Context
 import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.media.SoundPool
 import com.mohit.saythewordgameonbeat.R
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -11,35 +10,55 @@ import javax.inject.Singleton
 
 @Singleton
 class BeatPlayer @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) {
-    // --- 1. Background Music (MediaPlayer) ---
-    private var musicPlayer: MediaPlayer? = null
-
-    // --- 2. Short SFX (SoundPool) ---
     private val soundPool: SoundPool
+
+    // Sound IDs (The loaded file reference)
+    private val gameSoundId: Int
+    private val memorizationSoundId: Int
     private val tikSoundId: Int
     private val tokSoundId: Int
 
+    // Stream IDs (The currently playing instance)
+    private var musicStreamId: Int = 0
+
     init {
-        // Initialize SoundPool for fast playback
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_GAME)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
             .build()
 
         soundPool = SoundPool.Builder()
-            .setMaxStreams(5) // Allow 5 sounds at once
+            .setMaxStreams(5)
             .setAudioAttributes(audioAttributes)
             .build()
 
-        // PRE-LOAD SOUNDS (Important for zero latency)
-        // Make sure these files exist in res/raw
+        // Load all sounds
+        gameSoundId = soundPool.load(context, R.raw.game_beat, 1)
+        memorizationSoundId = soundPool.load(context, R.raw.memorization_beat, 1)
         tikSoundId = soundPool.load(context, R.raw.tik, 1)
         tokSoundId = soundPool.load(context, R.raw.tok, 1)
     }
 
-    // --- SFX FUNCTIONS ---
+    // --- MUSIC (LOOPING) ---
+
+    fun playGameBackgroundMusic() {
+        stopMusic() // Stop any previous music first
+
+        // Loop parameter: -1 means loop forever
+        musicStreamId = soundPool.play(gameSoundId, 0.5f, 0.5f, 1, 0, 0.9f)
+    }
+
+    fun playMemorizationMusic() {
+        stopMusic()
+
+        // Loop parameter: -1 means loop forever
+        musicStreamId = soundPool.play(memorizationSoundId, 0.5f, 0.5f, 1, 0, 0.9f)
+    }
+
+    // --- SFX (ONE SHOT) ---
+
     fun playTik() {
         soundPool.play(tikSoundId, 1f, 1f, 1, 0, 1f)
     }
@@ -48,34 +67,34 @@ class BeatPlayer @Inject constructor(
         soundPool.play(tokSoundId, 1f, 1f, 1, 0, 1f)
     }
 
+    // --- CONTROLS ---
 
-    // --- MUSIC FUNCTIONS (Same as before) ---
-    fun playBackgroundMusic() {
-        if (musicPlayer == null) {
-            musicPlayer = MediaPlayer.create(context, R.raw.game_beat).apply {
-                isLooping = true
-                setVolume(0.4f, 0.4f) // Lower volume so SFX is louder
-                start()
-            }
-        } else if (musicPlayer?.isPlaying == false) {
-            musicPlayer?.start()
+    fun pauseBackgroundMusic() {
+        // Use the STREAM ID to pause
+        if (musicStreamId != 0) {
+            soundPool.pause(musicStreamId)
         }
     }
 
-    fun pauseBackgroundMusic() {
-        if (musicPlayer?.isPlaying == true) {
-            musicPlayer?.pause()
+    fun resumeBackgroundMusic() {
+        // Use the STREAM ID to resume
+        if (musicStreamId != 0) {
+            soundPool.resume(musicStreamId)
         }
     }
 
     fun stopAll() {
-        // Stop Music
-        musicPlayer?.stop()
-        musicPlayer?.release()
-        musicPlayer = null
+        stopMusic()
+        // Also stop any specific SFX if needed, though they usually finish naturally
     }
 
-    // Cleanup when app closes
+    private fun stopMusic() {
+        if (musicStreamId != 0) {
+            soundPool.stop(musicStreamId)
+            musicStreamId = 0
+        }
+    }
+
     fun release() {
         stopAll()
         soundPool.release()

@@ -24,15 +24,19 @@ class BlockRepository @Inject constructor() {
     private val listOfEasyBlocks = listOf(
         listOf(
             Block(R.drawable.single_player, "Cat"),
-            Block(R.drawable.single_player, "Bat"),
+            Block(R.drawable.single_player, "Bat")
+        ),
+        listOf(
             Block(R.drawable.single_player, "Hat"),
             Block(R.drawable.single_player, "Rat")
         ),
         listOf(
-            Block(R.drawable.single_player, "Dog"),
-            Block(R.drawable.single_player, "Log"),
             Block(R.drawable.single_player, "Frog"),
             Block(R.drawable.single_player, "Cog")
+        ),
+        listOf(
+            Block(R.drawable.single_player, "Dog"),
+            Block(R.drawable.single_player, "Log")
         ) //todo(replace icons and add more)
     )
 
@@ -41,7 +45,9 @@ class BlockRepository @Inject constructor() {
         listOf(
             Block(R.drawable.single_player, "Cat"),
             Block(R.drawable.single_player, "Bat"),
-            Block(R.drawable.single_player, "Hat"),
+            Block(R.drawable.single_player, "Hat")
+        ),
+        listOf(
             Block(R.drawable.single_player, "Rat"),
             Block(R.drawable.single_player, "Mat"),
             Block(R.drawable.single_player, "Sat")
@@ -55,11 +61,13 @@ class BlockRepository @Inject constructor() {
             Block(R.drawable.single_player, "Bat"),
             Block(R.drawable.single_player, "Hat"),
             Block(R.drawable.single_player, "Rat"),
+        ),
+        listOf(
             Block(R.drawable.single_player, "Mat"),
             Block(R.drawable.single_player, "Sat"),
             Block(R.drawable.single_player, "Fat"),
             Block(R.drawable.single_player, "Pat")
-        )//todo(replace icons and add more)
+    )//todo(replace icons and add more)
     )
 
     // should have 10 blocks
@@ -70,6 +78,8 @@ class BlockRepository @Inject constructor() {
             Block(R.drawable.single_player, "Hat"),
             Block(R.drawable.single_player, "Rat"),
             Block(R.drawable.single_player, "Mat"),
+        ),
+        listOf(
             Block(R.drawable.single_player, "Sat"),
             Block(R.drawable.single_player, "Fat"),
             Block(R.drawable.single_player, "Pat"),
